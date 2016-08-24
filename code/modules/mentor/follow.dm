@@ -15,15 +15,6 @@
 /*	else
 		holder.following = M*/
 
-	var/client/C = usr.client
-	if(!isobserver(usr))
-		C.admin_ghost()
-	var/mob/dead/observer/A = C.mob
-	A.ManualFollow(M)
-	if(!A.ManualFollow(M))
-		A.ManualFollow(M)
-
-	//usr.client.adminobs = 1
 	usr.reset_perspective(M)
 	src.verbs += /client/proc/mentor_unfollow
 
@@ -41,7 +32,6 @@
 	if(!check_mentor())
 		return
 
-	//usr.client.adminobs = 0
 	usr.reset_perspective(null)
 	src.verbs -= /client/proc/mentor_unfollow
 
