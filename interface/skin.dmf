@@ -869,6 +869,8 @@ menu "menu"
 		is-disabled = false
 		saved-params = "is-checked"
 	elem 
+=======
+	elem "reconnectbutton"
 		name = "&Reconnect"
 		command = ".reconnect"
 		category = "&File"
