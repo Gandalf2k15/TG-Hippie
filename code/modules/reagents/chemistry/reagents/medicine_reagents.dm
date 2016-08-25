@@ -121,20 +121,12 @@
 /datum/reagent/medicine/cryoxadone
 	name = "Cryoxadone"
 	id = "cryoxadone"
-	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the patient's body temperature must be under 270K for it to metabolise correctly."
+	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the patient's body temperature must be under 250K for it to metabolise correctly."
 	color = "#0000C8"
 
 /datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/M)
 	switch(M.bodytemperature) // Low temperatures are required to take effect.
-		if(0 to 100) // At extreme temperatures (upgraded cryo) the effect is greatly increased.
-			M.status_flags &= ~DISFIGURED
-			M.adjustCloneLoss(-7, 0)
-			M.adjustOxyLoss(-9, 0)
-			M.adjustBruteLoss(-5, 0)
-			M.adjustFireLoss(-5, 0)
-			M.adjustToxLoss(-5, 0)
-			. = 1
-		if(100 to 225) // At lower temperatures (cryo) the full effect is boosted
+		if(0 to 200) // At lower temperatures (cryo) the full effect is boosted
 			M.status_flags &= ~DISFIGURED
 			M.adjustCloneLoss(-2, 0)
 			M.adjustOxyLoss(-7, 0)
@@ -142,7 +134,7 @@
 			M.adjustFireLoss(-3, 0)
 			M.adjustToxLoss(-3, 0)
 			. = 1
-		if(225 to T0C)
+		if(200 to 250)
 			M.status_flags &= ~DISFIGURED
 			M.adjustCloneLoss(-1, 0)
 			M.adjustOxyLoss(-5, 0)
@@ -152,6 +144,23 @@
 			. = 1
 	..()
 
+/datum/reagent/medicine/clonexadone
+	name = "Clonexadone"
+	id = "clonexadone"
+	description = "A stronger version of Cryoxadone that only metabolizes in extremely low temperatures below 150K."
+	color = "#0000C8"
+
+/datum/reagent/medicine/clonexadone/on_mob_life(mob/living/M)
+	switch(M.bodytemperature) // Low temperatures are required to take effect.
+		if(0 to 150) // At extreme temperatures (upgraded cryo) the effect is greatly increased.
+			M.status_flags &= ~DISFIGURED
+			M.adjustCloneLoss(-7, 0)
+			M.adjustOxyLoss(-9, 0)
+			M.adjustBruteLoss(-5, 0)
+			M.adjustFireLoss(-5, 0)
+			M.adjustToxLoss(-5, 0)
+			. = 1
+	..()
 
 /datum/reagent/medicine/rezadone
 	name = "Rezadone"
@@ -197,16 +206,11 @@
 			if(show_message)
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getFireLoss())
-			M.adjustFireLoss(-reac_volume)
+			M.adjustFireLoss(max(-reac_volume, -30))
 			if(show_message)
 				M << "<span class='danger'>You feel your burns healing! It stings like hell!</span>"
 			M.emote("scream")
 	..()
-
-/datum/reagent/medicine/silver_sulfadiazine/on_mob_life(mob/living/M)
-	M.adjustFireLoss(-2*REM, 0)
-	..()
-	. = 1
 
 /datum/reagent/medicine/oxandrolone
 	name = "Oxandrolone"
@@ -245,17 +249,11 @@
 			if(show_message)
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getBruteLoss())
-			M.adjustBruteLoss(-reac_volume)
+			M.adjustBruteLoss(max(-reac_volume, -30))
 			if(show_message)
 				M << "<span class='danger'>You feel your bruises healing! It stings like hell!</span>"
 			M.emote("scream")
 	..()
-
-
-/datum/reagent/medicine/styptic_powder/on_mob_life(mob/living/M)
-	M.adjustBruteLoss(-2*REM, 0)
-	..()
-	. = 1
 
 /datum/reagent/medicine/salglu_solution
 	name = "Saline-Glucose Solution"
@@ -263,13 +261,12 @@
 	description = "Has a 33% chance per metabolism cycle to heal brute and burn damage.  Can be used as a blood substitute on an IV drip."
 	reagent_state = LIQUID
 	color = "#DCDCDC"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/medicine/salglu_solution/on_mob_life(mob/living/M)
-	if(prob(33))
-		M.adjustBruteLoss(-0.5*REM, 0)
-		M.adjustFireLoss(-0.5*REM, 0)
-		. = 1
+	M.adjustBruteLoss(-0.5*REM, 0)
+	M.adjustFireLoss(-0.5*REM, 0)
+	. = 1
 	..()
 
 /datum/reagent/medicine/salglu_solution/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
@@ -302,8 +299,7 @@
 /datum/reagent/medicine/mine_salve/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(INGEST, VAPOR, INJECT))
-			M.Stun(4)
-			M.Weaken(4)
+			M.adjustStaminaLoss(3*reac_volume)
 			if(show_message)
 				M << "<span class='warning'>Your stomach agonizingly cramps!</span>"
 		else
@@ -333,8 +329,9 @@
 /datum/reagent/medicine/synthflesh/reaction_mob(mob/living/M, method=TOUCH, reac_volume,show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(PATCH, TOUCH))
-			M.adjustBruteLoss(-1.25 * reac_volume)
-			M.adjustFireLoss(-1.25 * reac_volume)
+			M.adjustBruteLoss(-1 * reac_volume)
+			M.adjustFireLoss(-1 * reac_volume)
+			M.adjustStaminaLoss(1.5 * reac_volume)
 			if(show_message)
 				M << "<span class='danger'>You feel your burns and bruises healing! It stings like hell!</span>"
 	..()
@@ -919,7 +916,8 @@ datum/reagent/medicine/bicaridine/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/bicaridine/overdose_process(mob/living/M)
-	M.adjustBruteLoss(4*REM, 0)
+	M.adjustBruteLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
@@ -937,7 +935,8 @@ datum/reagent/medicine/dexalin/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/dexalin/overdose_process(mob/living/M)
-	M.adjustOxyLoss(4*REM, 0)
+	M.adjustOxyLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
@@ -955,7 +954,57 @@ datum/reagent/medicine/kelotane/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/kelotane/overdose_process(mob/living/M)
-	M.adjustFireLoss(4*REM, 0)
+	M.adjustFireLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
+	..()
+	. = 1
+
+datum/reagent/medicine/bromelain
+	name = "Bromelain"
+	id = "bromelain"
+	description = "Effective at healing severe brusing and very efficient but acts somewhat slowly."
+	reagent_state = LIQUID
+	color = "#E0BCD6"
+	overdose_threshold = 30
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+datum/reagent/medicine/bromelain/on_mob_life(mob/living/M)
+	M.adjustBruteLoss(-2*REM, 0)
+	if(M.getBruteLoss() < 30)
+		metabolization_rate = REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	..()
+	. = 1
+
+datum/reagent/medicine/bromelain/overdose_process(mob/living/M)
+	M.adjustBruteLoss(3*REM, 0)
+	metabolization_rate = 2 * REAGENTS_METABOLISM
+	..()
+	. = 1
+
+datum/reagent/medicine/dermaline
+	name = "Dermaline"
+	id = "dermaline"
+	description = "Effective at healing severe burns and very efficient but acts somewhat slowly."
+	reagent_state = LIQUID
+	color = "#E0D8BC"
+	overdose_threshold = 30
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+datum/reagent/medicine/dermaline/on_mob_life(mob/living/M)
+	M.adjustFireLoss(-2*REM, 0)
+	if(M.getFireLoss() < 30)
+		metabolization_rate = REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+	..()
+	. = 1
+
+datum/reagent/medicine/dermaline/overdose_process(mob/living/M)
+	M.adjustFireLoss(3*REM, 0)
+	metabolization_rate = 2 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
@@ -976,7 +1025,8 @@ datum/reagent/medicine/antitoxin/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/antitoxin/overdose_process(mob/living/M)
-	M.adjustToxLoss(4*REM, 0) // End result is 2 toxin loss taken, because it heals 2 and then removes 4.
+	M.adjustToxLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
