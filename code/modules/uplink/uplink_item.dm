@@ -142,6 +142,18 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	cost = 5
 	jobs = list("Bartender")
 
+//King of the Disk items
+
+/datum/uplink_item/king_disk
+	category = "King of the Disk items"
+	include_modes = list(/datum/game_mode/traitor/king_disk)
+
+/datum/uplink_item/king_disk/pinpointer
+	name = "Spare Pinpointer"
+	desc = "In case you lose your pinpointer, the Syndicate are willing to provide a spare...for a price."
+	item = /obj/item/weapon/pinpointer
+	cost = 2
+
 // Nuclear Operative (Special Offers)
 /datum/uplink_item/nukeoffer
 	category = "Special Offers"
@@ -205,6 +217,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/gun/projectile/revolver
 	cost = 13
 	surplus = 50
+	exclude_modes = list(/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/dangerous/shotgun
 	name = "Bulldog Shotgun"
@@ -271,7 +284,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow
 	cost = 12
 	surplus = 50
-	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang)
+	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang, /datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/dangerous/flamethrower
 	name = "Flamethrower"
@@ -835,7 +848,13 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			in electronic devices, subverts intended functions, and easily breaks security mechanisms."
 	item = /obj/item/weapon/card/emag
 	cost = 6
-	exclude_modes = list(/datum/game_mode/gang)
+	exclude_modes = list(/datum/game_mode/gang, /datum/game_mode/traitor/king_disk)
+
+/datum/uplink_item/device_tools/emag/kotd
+	name = "Cryptographic Sequencer - KotD"
+	cost = 8
+	exclude_modes = list()
+	include_modes = list(/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/device_tools/toolbox
 	name = "Full Syndicate Toolbox"
@@ -1155,7 +1174,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			you will receive."
 	item = /obj/item/weapon/storage/box/syndicate
 	cost = 20
-	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang)
+	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang, /datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/badass/surplus
 	name = "Syndicate Surplus Crate"
@@ -1164,7 +1183,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/structure/closet/crate
 	cost = 20
 	player_minimum = 25
-	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang)
+	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang, /datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/badass/surplus/spawn_item(turf/loc, obj/item/device/uplink/U)
 	var/list/uplink_items = get_uplink_items()
