@@ -140,7 +140,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
 	item = /obj/item/ammo_casing/shotgun/buckshot
 	cost = 5
-jobs = list("Bartender")
+	jobs = list("Bartender")
 
 //King of the Disk items
 
