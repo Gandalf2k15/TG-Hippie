@@ -487,6 +487,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	desc = "Better keep this safe."
 	icon_state = "nucleardisk"
 	persistence_replacement = /obj/item/weapon/disk/fakenucleardisk
+	var/king_timer = 0
 
 /obj/item/weapon/disk/nuclear/New()
 	..()
