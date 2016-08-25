@@ -170,7 +170,7 @@
 	name = "morphine pill"
 	desc = "Commonly used to treat insomnia."
 	icon_state = "pill8"
-	list_reagents = list("morphine" = 30)
+	list_reagents = list("morphine" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/stimulant
 	name = "stimulant pill"
@@ -188,7 +188,7 @@
 	name = "antitoxin pill"
 	desc = "Neutralizes many common toxins."
 	icon_state = "pill17"
-	list_reagents = list("charcoal" = 50)
+	list_reagents = list("charcoal" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/epinephrine
 	name = "epinephrine pill"
@@ -200,25 +200,25 @@
 	name = "mannitol pill"
 	desc = "Used to treat brain damage."
 	icon_state = "pill17"
-	list_reagents = list("mannitol" = 50)
+	list_reagents = list("mannitol" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/mutadone
 	name = "mutadone pill"
 	desc = "Used to treat genetic damage."
 	icon_state = "pill20"
-	list_reagents = list("mutadone" = 50)
+	list_reagents = list("mutadone" = 15)
 	roundstart = 1
-/obj/item/weapon/reagent_containers/pill/salicyclic
-	name = "salicylic acid pill"
+/obj/item/weapon/reagent_containers/pill/bromelain
+	name = "bromelain pill"
 	desc = "Used to dull pain."
 	icon_state = "pill9"
-	list_reagents = list("sal_acid" = 24)
+	list_reagents = list("bromelain" = 15)
 	roundstart = 1
-/obj/item/weapon/reagent_containers/pill/oxandrolone
-	name = "oxandrolone pill"
+/obj/item/weapon/reagent_containers/pill/dermaline
+	name = "dermaline pill"
 	desc = "Used to stimulate burn healing."
 	icon_state = "pill11"
-	list_reagents = list("oxandrolone" = 24)
+	list_reagents = list("dermaline" = 15)
 	roundstart = 1
 
 /obj/item/weapon/reagent_containers/pill/insulin
