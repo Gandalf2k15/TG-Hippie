@@ -52,6 +52,8 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	var/list/include_modes = list() // Game modes to allow this item in.
 	var/list/exclude_modes = list() // Game modes to disallow this item from.
 	var/player_minimum //The minimum crew size needed for this item to be added to uplinks.
+	var/list/jobs = list() // For job-specific traitor items. Leave empty for all jobs to be allowed to buy it.
+	var/list/jobs_exclude = list() //Not sure why would you want to exclude uplink items from some jobs, but okay.
 
 /datum/uplink_item/proc/spawn_item(turf/loc, obj/item/device/uplink/U)
 	if(item)
@@ -86,6 +88,59 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			H << "\The [A] materializes onto the floor."
 	return 1
 
+// JOB-SPECIFIC ITEMS
+
+/datum/uplink_item/job_specific //No job-specific support for surplus yet.
+	category = "Job-specific Contraband"
+	surplus = 0
+
+//SCIENCE + MEDICAL
+/datum/uplink_item/job_specific/labcoat
+	name = "Armored Labcoat"
+	desc = "An armored labcoat with the ability to change how it looks into any standard Nanotrasen issue labcoat."
+	item = /obj/item/clothing/suit/labcoat/chameleon
+	cost = 4
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
+
+//MEDICAL
+/datum/uplink_item/job_specific/voodoo
+	name = "Voodoo Doll"
+	desc = "An artifact provided by the Wizard Federation, it allows you to attach any item to it and manipulate anyone who has ever touched said item, be it from moving them around, making them say stuff and stabbing them with objects. The Wizard Federation has notified us that the victim will be made alert of the user's general location if used too aggresively."
+	item = /obj/item/weapon/storage/box/syndie_kit/voodoo
+	cost = 10
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist")
+
+//SERVICE DIVISION
+/datum/uplink_item/job_specific/chainsaw
+	name = "Chainsaw"
+	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack. RIP AND RUN"
+	item = /obj/item/weapon/twohanded/required/chainsaw/doomslayer
+	cost = 14
+	jobs = list("Botanist", "Bartender", "Chef")
+
+//LIBRARIAN
+/datum/uplink_item/job_specific/soulstone
+	name = "Soulstone"
+	desc = "This stone will be able to capture your victim's soul and bind them to your will."
+	item = /obj/item/device/soulstone/anybody
+	cost = 5
+	jobs = list("Librarian")
+
+//CHAPLAIN
+/datum/uplink_item/job_specific/skelestone
+	name = "Skelestone"
+	desc = "Make a skeleton minion! Has one use."
+	item = /obj/item/device/necromantic_stone/oneuse
+	cost = 7
+	jobs = list("Chaplain")
+
+//BARTENDER
+/datum/uplink_item/job_specific/buckshot
+	name = "12g Buckshot Shell"
+	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
+	item = /obj/item/ammo_casing/shotgun/buckshot
+	cost = 5
+jobs = list("Bartender")
 
 //King of the Disk items
 
