@@ -23,13 +23,13 @@
 	category = list("Firing Pins")
 
 /datum/design/stunrevolver
-	name = "Tesla Revolver"
+	name = "Stun Revolver"
 	desc = "A high-tech revolver that fires internal, reusable shock cartridges in a revolving cylinder. The cartridges can be recharged using conventional rechargers."
 	id = "stunrevolver"
-	req_tech = list("combat" = 4, "materials" = 4, "powerstorage" = 5)
+	req_tech = list("combat" = 3, "materials" = 3, "powerstorage" = 2)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 10000, MAT_GLASS = 10000, MAT_SILVER = 10000)
-	build_path = /obj/item/weapon/gun/energy/shock_revolver
+	materials = list(MAT_METAL = 4000, MAT_GLASS = 1000)
+	/obj/item/weapon/gun/energy/stunrevolver
 	category = list("Weapons")
 
 /datum/design/nuclear_gun
